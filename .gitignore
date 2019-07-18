@@ -1,3 +1,12 @@
+
+.idea/vcs.xml
+.idea/inspectionProfiles
+!.idea/runConfigurations/*
+!.idea/modules.xml
+!.idea/encodings.xml
+!.idea/vcs.xml
+!.idea/workspace.xml
+
 # Created by .ignore support plugin (hsz.mobi)
 ### Java template
 # Compiled class file
@@ -29,7 +38,6 @@ hs_err_pid*
 # Reference: https://intellij-support.jetbrains.com/hc/en-us/articles/206544839
 
 # User-specific stuff
-.idea/**/workspace.xml
 .idea/**/tasks.xml
 .idea/**/usage.statistics.xml
 .idea/**/dictionaries
