@@ -98,6 +98,58 @@ public class SolutionTest {
     }
 
     @Test
+    void testLongWayToExit() {
+        // Hint: Walk to the exit, just a few small obstacles.
+        checkMazeSolution(
+                Maze.fromStrings(new String[]{
+                        " *   *             \n" +
+                        " * * * *********** \n" +
+                        " * * * *           \n" +
+                        "   * * * **********\n" +
+                        " * * * *           \n" +
+                        " * *   *********** \n" +
+                        " * *   *#          ",
+                }),
+                Position.initial(0, 0)
+        );
+    }
+
+    @Test
+    void testSomeExitsUnreachable() {
+        // Hint: Walk to the exit, just a few small obstacles.
+        checkMazeSolution(
+                Maze.fromStrings(new String[]{
+                        "                     \n" +
+                        "**** * * * * * * * **\n" +
+                        "** *** * * * * * *** \n" +
+                        "** * *** * * * *** * \n" +
+                        "** * * *** * *** * * \n" +
+                        "** * * * * *** * * * \n" +
+                        "#*#*#*#*#*#*#*#*#*#*#",
+                }),
+                Position.initial(0, 0)
+        );
+    }
+
+    @Test
+    void testNearbyExitsUnreachable() {
+        // Hint: Walk to the exit, just a few small obstacles.
+        checkMazeSolution(
+                Maze.fromStrings(new String[]{
+                        " *# #*   *   * \n" +
+                        " ***** * * * * \n" +
+                        " *   * * * * * \n" +
+                        " * * * * * * * \n" +
+                        " * * * * * * * \n" +
+                        "   * * * * * *#\n" +
+                        "**** * * * * * \n" +
+                        "  #*   *   *   ",
+                }),
+                Position.initial(0, 0)
+        );
+    }
+
+    @Test
     void testStandaloneExit() {
         // Hint: Don't just follow the walls.
         checkMazeSolution(
