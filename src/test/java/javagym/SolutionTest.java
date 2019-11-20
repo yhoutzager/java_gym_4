@@ -48,6 +48,38 @@ public class SolutionTest {
         );
     }
 
+
+    @Test
+    void testSmallConstant() {
+        checkMazeSolution(
+                Maze.fromString(
+                        "   \n" +
+                                " * \n" +
+                                " * \n" +
+                                "#* \n"
+                ),
+                Position.initial(2, 3)
+        );
+    }
+
+    @Test
+    void testSmallTwoSteps() {
+        checkMazeSolution(
+                Maze.fromStrings(new String[]{
+                        "*  \n" +
+                                "** \n" +
+                                "** \n" +
+                                "#* \n",
+                        // next step
+                        "  *\n" +
+                                " **\n" +
+                                " **\n" +
+                                "#**\n",
+                }),
+                Position.initial(2, 3)
+        );
+    }
+
     @Test
     void testStaticRoom() {
         // Hint: Walk to the exit, just a few small obstacles.
@@ -98,36 +130,155 @@ public class SolutionTest {
         );
     }
 
-    //TODO @mark: exit not in last frame
-
     @Test
-    void testSmallConstant() {
+    void testExitMovedAround() {
+        // Hint: Don't rely on the exit position, look into the future.
         checkMazeSolution(
-                Maze.fromString(
-                        "   \n" +
-                        " * \n" +
-                        " * \n" +
-                        "#* \n"
-                ),
-                Position.initial(2, 3)
+                Maze.fromStrings(new String[]{
+                        "     \n" +
+                        "**** \n" +
+                        "     \n" +
+                        " ****\n" +
+                        "     ",
+                        // next step
+                        " #   \n" +
+                        "**** \n" +
+                        "     \n" +
+                        " ****\n" +
+                        "     ",
+                        // next step
+                        "     \n" +
+                        "**** \n" +
+                        "     \n" +
+                        " ****\n" +
+                        "  #  ",
+                }),
+                Position.initial(4, 4)
         );
     }
 
     @Test
-    void testSmallTwoSteps() {
+    void testExitOnlyInNonlastStep() {
+        // Hint: Don't only look for exits at the end of time.
         checkMazeSolution(
                 Maze.fromStrings(new String[]{
-                        "*  \n" +
-                        "** \n" +
-                        "** \n" +
-                        "#* \n",
+                        "     \n" +
+                        "*****\n" +
+                        "     \n" +
+                        " ****\n" +
+                        "     ",
                         // next step
-                        "  *\n" +
-                        " **\n" +
-                        " **\n" +
-                        "#**\n",
+                        "     \n" +
+                        "**** \n" +
+                        "     \n" +
+                        "*****\n" +
+                        "     ",
+                        // next step
+                        "#    \n" +
+                        "**** \n" +
+                        "     \n" +
+                        " ****\n" +
+                        "     ",
+                        // next step
+                        "     \n" +
+                        "**** \n" +
+                        "     \n" +
+                        " ****\n" +
+                        "     ",
                 }),
-                Position.initial(2, 3)
+                Position.initial(4, 4)
+        );
+    }
+
+    @Test
+    void testStartNotInFirstStep() {
+        // Hint: Sometimes you don't start at the first timestep. This makes earlier steps useless, but it happens.
+        checkMazeSolution(
+                Maze.fromStrings(new String[]{
+                        "#   #\n" +
+                        "     \n" +
+                        "  #  \n" +
+                        "     \n" +
+                        "#   #\n",
+                        // next step
+                        "     \n" +
+                        " *** \n" +
+                        " * * \n" +
+                        " ****\n" +
+                        "     \n",
+                        // next step
+                        "     \n" +
+                        " *** \n" +
+                        " * * \n" +
+                        " ****\n" +
+                        "   # ",
+                }),
+                Position.at(1, 4, 0)
+        );
+    }
+
+    @Test
+    void testBigMill() {
+        // Hint: you have to run a circle around the center to reach the end.
+        checkMazeSolution(
+                Maze.fromStrings(new String[]{
+                        "    *  \n" +
+                        "    *  \n" +
+                        "*****  \n" +
+                        "  * *  \n" +
+                        "  *****\n" +
+                        "  *    \n" +
+                        "  *    \n",
+                        // next step
+                        "       \n" +
+                        "       \n" +
+                        "*****  \n" +
+                        "  * *  \n" +
+                        "  *****\n" +
+                        "  *    \n" +
+                        "  *    \n",
+                        // next step
+                        "    *  \n" +
+                        "    *  \n" +
+                        "*****  \n" +
+                        "  * *  \n" +
+                        "  ***  \n" +
+                        "  *    \n" +
+                        "  *    \n",
+                        // next step
+                        "    *  \n" +
+                        "    *  \n" +
+                        "*****  \n" +
+                        "  * *  \n" +
+                        "  *****\n" +
+                        "       \n" +
+                        "       \n",
+                        // next step (clear out starting room)
+                        "*****  \n" +
+                        "*****  \n" +
+                        "*****  \n" +
+                        "  * *  \n" +
+                        "  *****\n" +
+                        "  *    \n" +
+                        "  *    \n",
+                        // next step
+                        "    *  \n" +
+                        "    *  \n" +
+                        "  ***  \n" +
+                        "  * *  \n" +
+                        "  *****\n" +
+                        "  *    \n" +
+                        "  *    \n",
+                        // next step
+                        "   #*  \n" +
+                        "   #*  \n" +
+                        "*****  \n" +
+                        "  * *  \n" +
+                        "  *****\n" +
+                        "  *    \n" +
+                        "  *    \n",
+                }),
+                Position.initial(0, 0)
         );
     }
 }

@@ -32,8 +32,8 @@ public class Solution {
                 // Let's just give up here.
                 break;
             }
+            path.left();
             if (leftCell == Exit) {
-                path.left();
                 break;
             }
         }

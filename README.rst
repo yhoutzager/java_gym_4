@@ -15,6 +15,8 @@ But it's not all bad:
 - You know beforehand how the maze will change.
 - You can run as far as you want before between changes.
 
+The solution with the fastest runtime wins (which is not necessarily the one with the shortest path).
+
 How to join
 -------------------------------
 
