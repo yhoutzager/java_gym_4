@@ -48,15 +48,14 @@ public class SolutionTest {
         );
     }
 
-
     @Test
     void testSmallConstant() {
         checkMazeSolution(
                 Maze.fromString(
                         "   \n" +
-                                " * \n" +
-                                " * \n" +
-                                "#* \n"
+                        " * \n" +
+                        " * \n" +
+                        "#* \n"
                 ),
                 Position.initial(2, 3)
         );
@@ -183,6 +182,61 @@ public class SolutionTest {
     }
 
     @Test
+    void testSlidingCorridor() {
+        // Hint: Take one step per turn, and don't try to escape the sliding window.
+        checkMazeSolution(
+                Maze.fromStrings(new String[]{
+                        "  *                       #",
+                        "*  *                      #",
+                        " *  *                     #",
+                        "  *  *                    #",
+                        "   *  *                   #",
+                        "    *  *                  #",
+                        "     *  *                 #",
+                        "      *  *                #",
+                        "       *  *               #",
+                        "        *  *              #",
+                        "         *  *             #",
+                        "          *  *            #",
+                        "           *  *           #",
+                        "            *  *          #",
+                        "             *  *         #",
+                        "              *  *        #",
+                        "               *  *       #",
+                        "                *  *      #",
+                        "                 *  *     #",
+                        "                  *  *    #",
+                        "                   *  *   #",
+                        "                    *  *  #",
+                        "                     *  * #",
+                        "                      *  *#",
+                        "                         *#",
+                        "                         *#",
+                        "                         *#",
+                        "                      *  *#",
+                        "                     *  * #",
+                        "                    *  *  #",
+                        "                   *  *   #",
+                        "                  *  *    #",
+                        "                 *  *     #",
+                        "                *  *      #",
+                        "               *  *       #",
+                        "              *  *        #",
+                        "               *  *       #",
+                        "                *  *      #",
+                        "                 *  *     #",
+                        "                  *  *    #",
+                        "                   *  *   #",
+                        "                    *  *  #",
+                        "                     *  * #",
+                        "                      *  *#",
+                        "                       *  #",
+                }),
+                Position.initial(0, 0)
+        );
+    }
+
+    @Test
     void testExitMovedAround() {
         // Hint: Don't rely on the exit position, look into the future.
         checkMazeSolution(
@@ -206,6 +260,64 @@ public class SolutionTest {
                         "  #  ",
                 }),
                 Position.initial(4, 4)
+        );
+    }
+
+    @Test
+    void testBlinkingWalls() {
+        // Hint: Don't rely on the exit position, look into the future.
+        checkMazeSolution(
+                Maze.fromStrings(new String[]{
+                        " *   *   \n" +
+                        " * * * * \n" +
+                        " * * * * \n" +
+                        " * * * * \n" +
+                        " * * * * \n" +
+                        "   *   * \n",
+                        // next step
+                        "*********\n" +
+                        "*********\n" +
+                        "*********\n" +
+                        "*********\n" +
+                        "*********\n" +
+                        "******** \n",
+                        // next step
+                        " *   *   \n" +
+                        " * * * * \n" +
+                        " * * * * \n" +
+                        " * * * * \n" +
+                        " * * * * \n" +
+                        "   *   * \n",
+                        // next step
+                        " ********\n" +
+                        "*********\n" +
+                        "*********\n" +
+                        "*********\n" +
+                        "*********\n" +
+                        "*********\n",
+                        // next step
+                        " *   *   \n" +
+                        " * * * * \n" +
+                        " * * * * \n" +
+                        " * * * * \n" +
+                        " * * * * \n" +
+                        "   *   * \n",
+                        // next step
+                        "*********\n" +
+                        "*********\n" +
+                        "*********\n" +
+                        "*********\n" +
+                        "*********\n" +
+                        "***** ***\n",
+                        // next step
+                        "#*   *   \n" +
+                        " * * * * \n" +
+                        " * * * * \n" +
+                        " * * * * \n" +
+                        " * * * * \n" +
+                        "   *   * \n",
+                }),
+                Position.initial(0, 0)
         );
     }
 
