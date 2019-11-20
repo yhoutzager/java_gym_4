@@ -40,6 +40,11 @@ public class SolutionTest {
     }
 
     @Test
+    void testPerformance() {
+        throw new AssertionError("There will be a performance test later on! Don't assume it won't be tested! (you can delete this placeholder if you want)");
+    }
+
+    @Test
     void testLongCorridor() {
         // Hint: Just keep walking right.
         checkMazeSolution(
