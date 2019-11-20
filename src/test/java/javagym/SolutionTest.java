@@ -32,11 +32,73 @@ public class SolutionTest {
 
     @Test
     void testCompletesWithoutErrors() {
+        // Hint: Just step to the left.
         checkMazeSolution(
                 Maze.fromString("# "),
                 Position.initial(1, 0)
         );
     }
+
+    @Test
+    void testLongCorridor() {
+        // Hint: Just keep walking right.
+        checkMazeSolution(
+                Maze.fromString("                          #"),
+                Position.initial(0, 0)
+        );
+    }
+
+    @Test
+    void testStaticRoom() {
+        // Hint: Walk to the exit, just a few small obstacles.
+        checkMazeSolution(
+                Maze.fromStrings(new String[]{
+                        " *                        \n" +
+                        "                 *        \n" +
+                        "                          \n" +
+                        "                       *  \n" +
+                        "       *                  \n" +
+                        "               *          \n" +
+                        "       *                 #",
+                }),
+                Position.initial(0, 0)
+        );
+    }
+
+    @Test
+    void testStandaloneExit() {
+        // Hint: Don't just follow the walls.
+        checkMazeSolution(
+                Maze.fromStrings(new String[]{
+                        "     \n" +
+                        "     \n" +
+                        "  #  \n" +
+                        "     \n" +
+                        "     "
+                }),
+                Position.initial(0, 0)
+        );
+    }
+
+    @Test
+    void testExitAppearsLater() {
+        // Hint: Just stand still until the exit appears under you.
+        checkMazeSolution(
+                Maze.fromStrings(new String[]{
+                        " ",
+                        " ",
+                        " ",
+                        " ",
+                        " ",
+                        " ",
+                        " ",
+                        "#",
+                }),
+                Position.initial(0, 0)
+        );
+    }
+
+    //TODO @mark: exit not in last frame
 
     @Test
     void testSmallConstant() {

@@ -27,7 +27,7 @@ public class Solution {
         PathBuilder path = new PathBuilder(initialPosition);
         while (true) {
             Position leftPos = path.latest().left();
-            Cell leftCell = maze.get(leftPos);
+            Cell leftCell = maze.getOrElse(leftPos, Wall);
             if (leftCell == Wall) {
                 // Let's just give up here.
                 break;
