@@ -7,7 +7,13 @@ Welcome to the next Java Gym challenge!
 The challenge
 -------------------------------
 
+The fourth Java Gym challenge is to solve a maze. But not just any maze - a maze that changes with time.
 
+But it's not all bad:
+
+- The mazes are only two-dimensional, not counting time.
+- You know beforehand how the maze will change.
+- You can run as far as you want before between changes.
 
 How to join
 -------------------------------
