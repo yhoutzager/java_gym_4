@@ -22,7 +22,6 @@ public final class Maze {
 	@Positive public final int duration;
 	@Nonnull private final Cell[][][] data;
 
-	//TODO @mark: remove?
 	public Maze(@Positive int duration, @Positive int width, @Positive int height) {
 		this.duration = duration;
 		this.width = width;
@@ -149,9 +148,9 @@ public final class Maze {
 			String[] rows = snapshotText.split("\\r?\\n");
 			Validate.isTrue(rows.length > 0);
 			final int columnCount = rows[0].length();
-			Cell[][] snapshotMaze = new Cell[rows.length][columnCount];
+			Cell[][] snapshotMaze = new Cell[columnCount][rows.length];
 			if (mazes == null) {
-				mazes = new Cell[textMazes.length][rows.length][columnCount];
+				mazes = new Cell[textMazes.length][columnCount][rows.length];
 			} else {
 				Validate.isTrue(mazes[0].length == snapshotMaze.length && mazes[0][0].length == snapshotMaze[0].length,
 						"Initial maze was " + mazes[0].length + " x " + mazes[0][0].length +
@@ -167,7 +166,7 @@ public final class Maze {
 				for (int colNr = 0; colNr < columnCount; colNr++) {
 					char letter = row.charAt(colNr);
 					Cell cell = Cell.parse(letter);
-					snapshotMaze[rowNr][colNr] = cell;
+					snapshotMaze[colNr][rowNr] = cell;
 				}
 			}
 		}

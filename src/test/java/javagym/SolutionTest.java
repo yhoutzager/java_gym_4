@@ -4,6 +4,7 @@ import javax.annotation.Nonnull;
 
 import org.junit.jupiter.api.Test;
 
+import noedit.Cell;
 import noedit.Maze;
 import noedit.Path;
 import noedit.Position;
@@ -23,7 +24,7 @@ public class SolutionTest {
                 "The solution path does not start at the initial position");
         assertTrue(path.isPhysical(),
                 "The solution contains impossible moves, like jumping multiple squares, or going back in time.");
-        assertEquals(path.last(), initialPosition,
+        assertEquals(Cell.Exit, maze.get(path.last()),
                 "The solution does not solve the maze (it does not end at an exit).");
         assertTrue(path.isSolution(maze),
                 "The solution is not valid for the maze — it may cross walls or leave the maze area.");

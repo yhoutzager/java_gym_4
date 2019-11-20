@@ -75,9 +75,19 @@ public final class Path {
 
 	public boolean isSolution(@Nonnull Maze maze) {
 		Validate.isTrue(isPhysical());
-
-		if (1==1) throw new NotImplementedException("todo: ");  //TODO @mark:
-		return true;
+		// It is assumed (and checked separately) that the initial position is correct.
+		for (int i = 0; i < size() - 1; i++) {
+			Position step = get(i);
+			if (Cell.Wall == maze.get(step)) {
+				System.err.println("Illegal move (#" + i + ", " + step + ") — there is a wall there!");
+				return false;
+			}
+			if (Cell.Exit == maze.get(step)) {
+				System.err.println("Warning: move (#" + i + ", " + step + ") was on the exit, but you did not stop!");
+				return true;
+			}
+		}
+		return Cell.Exit == maze.get(last());
 	}
 
 	@Nonnull

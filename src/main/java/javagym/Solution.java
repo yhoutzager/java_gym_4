@@ -20,7 +20,6 @@ public class Solution {
     @Nonnull
     @CheckReturnValue
     public Path solve(@Nonnull Maze maze, @Nonnull Position initialPosition) {
-        System.out.println(maze.asStringAll());
         Validate.isTrue(Wall != maze.get(initialPosition),
                 "Started inside a wall; this should never happen");
 
