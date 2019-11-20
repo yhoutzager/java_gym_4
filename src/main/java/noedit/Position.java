@@ -80,4 +80,9 @@ public final class Position {
 	public int hashCode() {
 		return Objects.hash(t, x, y);
 	}
+
+	@Override
+	public String toString() {
+		return "(t=" + t + ", x=" + x + ", y=" + y + ")";
+	}
 }

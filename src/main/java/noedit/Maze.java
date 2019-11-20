@@ -46,6 +46,16 @@ public final class Maze {
 		this.width = data[0].length;
 		this.height = data[0][0].length;
 		this.data = data;
+
+		// Check that the maze is square.
+		for (Cell[][] snapshot : data) {
+			Validate.isTrue(data[0].length == snapshot.length,
+					"Second dimensions of maze matrix aren't equal length (" + data[0].length + " vs " + snapshot.length + ")");
+			for (Cell[] row : snapshot) {
+				Validate.isTrue(data[0][0].length == row.length,
+						"Second dimensions of maze matrix aren't equal length (" + data[0][0].length + " vs " + row.length + ")");
+			}
+		}
 	}
 
 	@Nonnull
@@ -64,8 +74,8 @@ public final class Maze {
 
 	@Nonnull
 	@CheckReturnValue
-	public Cell get(int t, @Nonnull Position pos) {
-		return get(t, pos.x, pos.y);
+	public Cell get(@Nonnull Position pos) {
+		return get(pos.t, pos.x, pos.y);
 	}
 
 	/**
@@ -87,24 +97,30 @@ public final class Maze {
 
 	@Nonnull
 	@CheckReturnValue
+	public Cell getOrElse(@Nonnull Position pos, @Nonnull Cell fallback) {
+		return getOrElse(pos.t, pos.x, pos.y, fallback);
+	}
+
+	@Nonnull
+	@CheckReturnValue
 	public String asStringAt(@NonNegative int t) {
 		Validate.isTrue(t < duration, "'t' cannot exceed duration");
 
 		StringBuilder text = new StringBuilder("step " + (t + 1) + " of " + duration + ":\n");
 		text.append("+");
-		for (int i = 0; i < data[0][0].length; i++) {
+		for (int i = 0; i < width; i++) {
 			text.append("-");
 		}
 		text.append("+\n");
-		for (Cell[] row : data[t]) {
+		for (int y = 0; y < height; y++) {
 			text.append("|");
-			for (Cell cell : row) {
-				text.append(cell.toString());
+			for (int x = 0; x < width; x++) {
+				text.append(data[t][x][y].toString());
 			}
 			text.append("|\n");
 		}
 		text.append("+");
-		for (int i = 0; i < data[0][0].length; i++) {
+		for (int i = 0; i < width; i++) {
 			text.append("-");
 		}
 		text.append("+\n");
@@ -115,8 +131,8 @@ public final class Maze {
 	@CheckReturnValue
 	public String asStringAll() {
 		return IntStream.range(0, duration)
-		    .mapToObj(t -> asStringAt(t))
-		    .collect(Collectors.joining("\n\n"));
+		    .mapToObj(this::asStringAt)
+		    .collect(Collectors.joining("\n"));
 	}
 
 	@Nonnull

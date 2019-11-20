@@ -5,6 +5,7 @@ import javax.annotation.Nonnull;
 
 import org.apache.commons.lang3.Validate;
 
+import noedit.Cell;
 import noedit.Maze;
 import noedit.Path;
 import noedit.PathBuilder;
@@ -19,12 +20,24 @@ public class Solution {
     @Nonnull
     @CheckReturnValue
     public Path solve(@Nonnull Maze maze, @Nonnull Position initialPosition) {
-        Validate.isTrue(Open == maze.get(0, initialPosition),
+        System.out.println(maze.asStringAll());
+        Validate.isTrue(Wall != maze.get(initialPosition),
                 "Started inside a wall; this should never happen");
 
         System.out.println(maze.asStringAll());
         PathBuilder path = new PathBuilder(initialPosition);
-        path.left();
+        while (true) {
+            Position leftPos = path.latest().left();
+            Cell leftCell = maze.get(leftPos);
+            if (leftCell == Wall) {
+                // Let's just give up here.
+                break;
+            }
+            if (leftCell == Exit) {
+                path.left();
+                break;
+            }
+        }
         return path.build();
     }
 }

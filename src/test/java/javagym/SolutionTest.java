@@ -30,10 +30,41 @@ public class SolutionTest {
     }
 
     @Test
-    void testSolutionCompletesWithoutErrors() {
+    void testCompletesWithoutErrors() {
         checkMazeSolution(
                 Maze.fromString("# "),
-                Position.initial(0, 1)
+                Position.initial(1, 0)
+        );
+    }
+
+    @Test
+    void testSmallConstant() {
+        checkMazeSolution(
+                Maze.fromString(
+                        "   \n" +
+                        " * \n" +
+                        " * \n" +
+                        "#* \n"
+                ),
+                Position.initial(2, 3)
+        );
+    }
+
+    @Test
+    void testSmallTwoSteps() {
+        checkMazeSolution(
+                Maze.fromStrings(new String[]{
+                        "*  \n" +
+                        "** \n" +
+                        "** \n" +
+                        "#* \n",
+                        // next step
+                        "  *\n" +
+                        " **\n" +
+                        " **\n" +
+                        "#**\n",
+                }),
+                Position.initial(2, 3)
         );
     }
 }
