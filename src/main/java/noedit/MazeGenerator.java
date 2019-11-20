@@ -7,7 +7,7 @@ import static noedit.Cell.Exit;
 import static noedit.Cell.Open;
 import static noedit.Cell.Wall;
 
-public class MazeGenerator {
+public final class MazeGenerator {
 
 	@Nonnull
 	@CheckReturnValue

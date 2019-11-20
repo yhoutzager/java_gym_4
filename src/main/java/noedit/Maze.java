@@ -1,7 +1,5 @@
 package noedit;
 
-import java.util.Arrays;
-import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
@@ -17,7 +15,7 @@ import static noedit.Cell.Wall;
 /**
  * A time-dependent maze.
  */
-public class Maze {
+public final class Maze {
 
 	@Positive public final int width;
 	@Positive public final int height;
