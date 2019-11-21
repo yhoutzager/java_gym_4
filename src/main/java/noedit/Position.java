@@ -64,6 +64,12 @@ public final class Position {
 		return at(t + 1, x, y);
 	}
 
+	@Nonnull
+	@CheckReturnValue
+	public Spatial spatial() {
+		return Spatial.at(x, y);
+	}
+
 	public boolean equalsPosition(@Nonnull Position other) {
 		return t == other.t && x == other.x && y == other.y;
 	}
