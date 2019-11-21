@@ -1,12 +1,13 @@
 package noedit;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 import java.util.Stack;
 
 import javax.annotation.CheckReturnValue;
 import javax.annotation.Nonnull;
 
-import org.apache.commons.lang3.NotImplementedException;
 import org.apache.commons.lang3.Validate;
 import org.apache.commons.lang3.tuple.Pair;
 import org.checkerframework.checker.index.qual.Positive;
@@ -16,6 +17,21 @@ import static noedit.Cell.Open;
 import static noedit.Cell.Wall;
 
 public final class MazeGenerator {
+
+	enum Direction {
+		Right(+1, 0),
+		Up(0, -1),
+		Left(-1, 0),
+		Down(0, +1);
+
+		private final int dx;
+		private final int dy;
+
+		Direction(int dx, int dy) {
+			this.dx = dx;
+			this.dy = dy;
+		}
+	}
 
 	/**
 	 * Generate a random maze.
@@ -70,39 +86,45 @@ public final class MazeGenerator {
 		while (!toVisit.isEmpty()) {
 			Position current = toVisit.pop();
 			isVisited[current.x][current.y] = true;
-			if (current.x > 0) {
-				Position next = current.left();
-				if (!isVisited[next.x][next.y]) {
-					isOpen[2 * current.x - 1][2 * current.y] = Open;
-					toVisit.push(next);
-				}
+
+			// Find unvisited neighbours (which are still walls, as walls are removed when visited).
+			List<Direction> adjecentWalls = new ArrayList<>(4);   //TODO @mark: recycle this object
+			if (current.x > 0 && !isVisited[current.x - 1][current.y]) {
+				adjecentWalls.add(Direction.Left);
 			}
-			if (current.y > 0) {
-				Position next = current.up();
-				if (!isVisited[next.x][next.y]) {
-					isOpen[2 * current.x][2 * current.y - 1] = Open;
-					toVisit.push(next);
-				}
+			if (current.y > 0 && !isVisited[current.x][current.y - 1]) {
+				adjecentWalls.add(Direction.Up);
 			}
-			if (current.x < width - 1) {
-				Position next = current.right();
-				if (!isVisited[next.x][next.y]) {
-					isOpen[2 * current.x + 1][2 * current.y] = Open;
-					toVisit.push(next);
-				}
+			if (current.x < width - 1 && !isVisited[current.x + 1][current.y]) {
+				adjecentWalls.add(Direction.Right);
 			}
-			if (current.y < height - 1) {
-				Position next = current.down();
-				if (!isVisited[next.x][next.y]) {
-					isOpen[2 * current.x][2 * current.y + 1] = Open;
-					toVisit.push(next);
-				}
+			if (current.y < height - 1 && !isVisited[current.x][current.y + 1]) {
+				adjecentWalls.add(Direction.Down);
 			}
+
+			Direction choice;
+			if (adjecentWalls.size() > 1) {
+				// We have to come back to this tile later.
+				toVisit.push(current);
+				choice = adjecentWalls.get(rand.nextInt(adjecentWalls.size()));
+			} else if (adjecentWalls.size() == 1) {
+				choice = adjecentWalls.get(0);
+			} else {
+				// This is a dead end.
+				//TODO @mark: maybe collect ends, to build exists?
+				continue;
+			}
+
+			// Clear the chosen direction.
+			isOpen[2 * current.x + choice.dx][2 * current.y + choice.dy] = Open;
+			Position next = Position.at(t, current.x + choice.dx, current.y + choice.dy);
+			toVisit.push(next);
 		}
 		maze[t] = isOpen;
 
 		return Pair.of(new Maze(maze), Position.initial(initX, initY));
 	}
+
 }
 
 

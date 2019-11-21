@@ -456,7 +456,7 @@ public class SolutionTest {
 
     @Test
     void testGeneratedPerfect001() {
-        Pair<Maze, Position> puzzle = MazeGenerator.generate(123_456_789, 1, 10, 0.0, 1);
+        Pair<Maze, Position> puzzle = MazeGenerator.generate(123_456_789, 1, 100, 0.0, 1);
         System.out.println(puzzle.getLeft().asStringAll());
         throw new NotImplementedException("todo: ");  //TODO @mark: implement
     }
