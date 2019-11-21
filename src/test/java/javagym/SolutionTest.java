@@ -2,10 +2,13 @@ package javagym;
 
 import javax.annotation.Nonnull;
 
+import org.apache.commons.lang3.NotImplementedException;
+import org.apache.commons.lang3.tuple.Pair;
 import org.junit.jupiter.api.Test;
 
 import noedit.Cell;
 import noedit.Maze;
+import noedit.MazeGenerator;
 import noedit.Path;
 import noedit.Position;
 
@@ -449,5 +452,12 @@ public class SolutionTest {
                 }),
                 Position.initial(0, 0)
         );
+    }
+
+    @Test
+    void testGeneratedPerfect001() {
+        Pair<Maze, Position> puzzle = MazeGenerator.generate(123_456_789, 1, 10, 0.0, 1);
+        System.out.println(puzzle.getLeft().asStringAll());
+        throw new NotImplementedException("todo: ");  //TODO @mark: implement
     }
 }
