@@ -17,12 +17,14 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class SolutionTest {
 
-    private void checkMazeSolution(
+    private double checkMazeSolution(
             @Nonnull Maze maze,
             @Nonnull Position initialPosition
     ) {
         Solution solution = new Solution();
+        long t0 = System.nanoTime();
         Path path = solution.solve(maze, initialPosition);
+        long duration = System.nanoTime() - t0;
         assertEquals(path.first(), initialPosition,
                 "The solution path does not start at the initial position");
         assertTrue(path.isPhysical(),
@@ -31,6 +33,7 @@ public class SolutionTest {
                 "The solution does not solve the maze (it does not end at an exit).");
         assertTrue(path.isSolution(maze),
                 "The solution is not valid for the maze — it may cross walls or leave the maze area.");
+        return duration / 1e6;
     }
 
     @Test
@@ -457,7 +460,40 @@ public class SolutionTest {
     @Test
     void testGeneratedPerfect001() {
         Pair<Maze, Position> puzzle = MazeGenerator.generate(123_456_789, 3, 100, 0.0, 1);
-        System.out.println(puzzle.getLeft().asStringAll());
-        throw new NotImplementedException("todo: ");  //TODO @mark: implement
+        checkMazeSolution(puzzle.getLeft(), puzzle.getRight());
+    }
+
+    @Test
+    void testGeneratedPerfect002() {
+        Pair<Maze, Position> puzzle = MazeGenerator.generate(123_456_789, 4, 120, 0.0, 2);
+        checkMazeSolution(puzzle.getLeft(), puzzle.getRight());
+    }
+
+    @Test
+    void testGeneratedPerfect003() {
+        Pair<Maze, Position> puzzle = MazeGenerator.generate(123_456_789, 5, 140, 0.0, 3);
+        checkMazeSolution(puzzle.getLeft(), puzzle.getRight());
+    }
+
+    @Test
+    void testGeneratedPerfect004() {
+        Pair<Maze, Position> puzzle = MazeGenerator.generate(123_456_789, 6, 160, 0.0, 2);
+        checkMazeSolution(puzzle.getLeft(), puzzle.getRight());
+    }
+
+    @Test
+    void testGeneratedPerfect005() {
+        Pair<Maze, Position> puzzle = MazeGenerator.generate(123_456_789, 7, 200, 0.0, 1);
+        checkMazeSolution(puzzle.getLeft(), puzzle.getRight());
+    }
+    
+    @Test
+    void testGeneratedPerfectRepeats() {
+        double total = 0;
+        for (int i = 0; i < 100; i++) {
+            Pair<Maze, Position> puzzle = MazeGenerator.generate(123_456_789, 7, 200, 0.0, 1);
+            total += checkMazeSolution(puzzle.getLeft(), puzzle.getRight());
+        }
+        System.out.println(String.format("took %.3f ms", total));
     }
 }

@@ -93,7 +93,7 @@ public final class MazeGenerator {
 
 		return Pair.of(
 				new Maze(maze),
-				initialPos.atTime(0)
+				Position.initial(2 * initialPos.x, 2 * initialPos.y)
 		);
 	}
 
