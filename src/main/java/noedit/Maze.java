@@ -53,6 +53,9 @@ public final class Maze {
 			for (Cell[] row : snapshot) {
 				Validate.isTrue(data[0][0].length == row.length,
 						"Second dimensions of maze matrix aren't equal length (" + data[0][0].length + " vs " + row.length + ")");
+				for (Cell cell : row) {
+					Validate.notNull(cell);
+				}
 			}
 		}
 	}
