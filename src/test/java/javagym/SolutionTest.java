@@ -45,6 +45,23 @@ public class SolutionTest {
     }
 
     @Test
+    void testStartOnExit() {
+        // Hint: Maybe the only exit is under your feet!
+        checkMazeSolution(
+                Maze.fromStrings(new String[]{
+                        "   \n" +
+                        " # \n" +
+                        "   \n",
+                        // next step
+                        "   \n" +
+                        "   \n" +
+                        "   \n",
+                }),
+                Position.initial(1, 1)
+        );
+    }
+
+    @Test
     void testLongCorridor() {
         // Hint: Just keep walking right.
         checkMazeSolution(
