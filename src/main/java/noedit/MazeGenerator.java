@@ -78,8 +78,9 @@ public final class MazeGenerator {
 					rand.nextInt(width),
 					rand.nextInt(height)
 			);
-			maze[2 * t + 1] = generateWallLayer(2 * width - 1, 2 * height - 1);
-			maze[2 * t + 1][layerPos.x][layerPos.y] = Open;
+			Validate.isTrue(maze[2 * t][2 * layerPos.x][2 * layerPos.y] != Wall);
+			maze[2 * t + 1] = generateWallLayer(width, height);
+			maze[2 * t + 1][2 * layerPos.x][2 * layerPos.y] = Open;
 		}
 		maze[2 * duration - 2] = generatePerfect2D(rand, layerPos, width, height);
 
@@ -100,9 +101,9 @@ public final class MazeGenerator {
 	@Nonnull
 	@CheckReturnValue
 	private static Cell[][] generateWallLayer(int width, int height) {
-		Cell[][] layer = new Cell[width][height];
-		for (int x = 0; x < width; x++) {
-			for (int y = 0; y < height; y++) {
+		Cell[][] layer = new Cell[2 * width - 1][2 * height - 1];
+		for (int x = 0; x < 2 * width - 1; x++) {
+			for (int y = 0; y < 2 * height - 1; y++) {
 				layer[x][y] = Wall;
 			}
 		}
@@ -112,9 +113,9 @@ public final class MazeGenerator {
 	@Nonnull
 	@CheckReturnValue
 	private static Cell[][] generateCheckeredLayer(int width, int height) {
-		Cell[][] layer = new Cell[width][height];
-		for (int x = 0; x < width; x++) {
-			for (int y = 0; y < height; y++) {
+		Cell[][] layer = new Cell[2 * width - 1][2 * height - 1];
+		for (int x = 0; x < 2 * width - 1; x++) {
+			for (int y = 0; y < 2 * height - 1; y++) {
 				if (x % 2 == 0 && y % 2 == 0) {
 					layer[x][y] = Open;
 				} else {
@@ -133,7 +134,7 @@ public final class MazeGenerator {
 			@Positive int width,
 			@Positive int height
 	) {
-		Cell[][] isOpen = generateCheckeredLayer(2 * width - 1, 2 * height - 1);
+		Cell[][] isOpen = generateCheckeredLayer(width, height);
 		boolean[][] isVisited = new boolean[width][height];
 		Stack<Spatial> toVisit = new Stack<>();
 		toVisit.push(initialPos);
