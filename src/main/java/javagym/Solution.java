@@ -11,9 +11,8 @@ import noedit.Path;
 import noedit.PathBuilder;
 import noedit.Position;
 
-import static noedit.Cell.Open;
-import static noedit.Cell.Wall;
 import static noedit.Cell.Exit;
+import static noedit.Cell.Wall;
 
 public class Solution {
 

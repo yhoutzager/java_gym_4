@@ -8,7 +8,6 @@ import java.util.Set;
 import javax.annotation.CheckReturnValue;
 import javax.annotation.Nonnull;
 
-import org.apache.commons.lang3.NotImplementedException;
 import org.apache.commons.lang3.Validate;
 import org.checkerframework.checker.index.qual.NonNegative;
 import org.checkerframework.common.value.qual.IntRange;

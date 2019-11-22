@@ -2,7 +2,6 @@ package javagym;
 
 import javax.annotation.Nonnull;
 
-import org.apache.commons.lang3.NotImplementedException;
 import org.apache.commons.lang3.tuple.Pair;
 import org.junit.jupiter.api.Test;
 

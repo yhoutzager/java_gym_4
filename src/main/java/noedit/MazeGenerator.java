@@ -91,8 +91,13 @@ public final class MazeGenerator {
 
 		// Add the exits
 		while (exitCount > 0) {
-			if (maze[2 * duration - 2][rand.nextInt(width)][rand.nextInt(height)] != Exit) {
-				maze[2 * duration - 2][rand.nextInt(width)][rand.nextInt(height)] = Exit;
+			int tMax = 2 * duration - 2;
+			int t = tMax;
+			while (rand.nextInt(4) == 0) {
+				t = ((t - 1) + tMax) % tMax;
+			}
+			if (maze[t][2 * rand.nextInt(width)][2 * rand.nextInt(height)] != Exit) {
+				maze[t][2 * rand.nextInt(width)][2 * rand.nextInt(height)] = Exit;
 				exitCount -= 1;
 			}
 		}
