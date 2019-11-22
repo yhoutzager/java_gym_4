@@ -10,7 +10,6 @@ import javax.annotation.Nonnull;
 
 import org.apache.commons.lang3.Validate;
 import org.apache.commons.lang3.tuple.Pair;
-import org.checkerframework.checker.index.qual.NonNegative;
 import org.checkerframework.checker.index.qual.Positive;
 
 import static noedit.Cell.Exit;
@@ -73,16 +72,22 @@ public final class MazeGenerator {
 		// Add the mazes
 		Spatial layerPos = initialPos;
 		for (int t = 0; t < duration - 1; t++) {
-			maze[2 * t] = generatePerfect2D(rand, layerPos, width, height);
+			maze[2 * t] = makePorous(
+					generatePerfect2D(rand, layerPos, width, height),
+					porosity, rand);
 			layerPos = Spatial.at(
 					rand.nextInt(width),
 					rand.nextInt(height)
 			);
 			Validate.isTrue(maze[2 * t][2 * layerPos.x][2 * layerPos.y] != Wall);
-			maze[2 * t + 1] = generateWallLayer(width, height);
+			maze[2 * t + 1] = makePorous(
+					generateWallLayer(width, height),
+					porosity, rand);
 			maze[2 * t + 1][2 * layerPos.x][2 * layerPos.y] = Open;
 		}
-		maze[2 * duration - 2] = generatePerfect2D(rand, layerPos, width, height);
+		maze[2 * duration - 2] = makePorous(
+				generatePerfect2D(rand, layerPos, width, height),
+				porosity, rand);
 
 		// Add the exits
 		while (exitCount > 0) {
@@ -122,6 +127,23 @@ public final class MazeGenerator {
 					layer[x][y] = Wall;
 				}
 			}
+		}
+		return layer;
+	}
+
+	/**
+	 * Create extra open spaces in the layer.
+	 *
+	 * @param porosity The fraction of extra open spaces. Spaces may already be empty, or may be cleared twice.
+	 */
+	@Nonnull
+	@CheckReturnValue
+	private static Cell[][] makePorous(@Nonnull Cell[][] layer, double porosity, Random rand) {
+		int extraHoles = (int) Math.ceil(layer.length * layer[0].length * porosity);
+		for (int h = 0; h < extraHoles; h++) {
+			int x = rand.nextInt(layer.length);
+			int y = rand.nextInt(layer[0].length);
+			layer[x][y] = Open;
 		}
 		return layer;
 	}

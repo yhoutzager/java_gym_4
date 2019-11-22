@@ -454,31 +454,31 @@ public class SolutionTest {
 
     @Test
     void testGeneratedPerfect001() {
-        Pair<Maze, Position> puzzle = MazeGenerator.generate(123_456_111, 1, 20, 0, 1);
+        Pair<Maze, Position> puzzle = MazeGenerator.generate(123_456_111, 1, 20, 0.0, 1);
         checkMazeSolution(puzzle.getLeft(), puzzle.getRight());
     }
 
     @Test
     void testGeneratedPerfect002() {
-        Pair<Maze, Position> puzzle = MazeGenerator.generate(123_456_222, 2, 30, 0, 1);
+        Pair<Maze, Position> puzzle = MazeGenerator.generate(123_456_222, 2, 30, 0.0, 1);
         checkMazeSolution(puzzle.getLeft(), puzzle.getRight());
     }
 
     @Test
     void testGeneratedPerfect003() {
-        Pair<Maze, Position> puzzle = MazeGenerator.generate(123_456_333, 3, 45, 0, 1);
+        Pair<Maze, Position> puzzle = MazeGenerator.generate(123_456_333, 3, 45, 0.0, 1);
         checkMazeSolution(puzzle.getLeft(), puzzle.getRight());
     }
 
     @Test
     void testGeneratedPerfect004() {
-        Pair<Maze, Position> puzzle = MazeGenerator.generate(123_456_444, 3, 60, 0, 1);
+        Pair<Maze, Position> puzzle = MazeGenerator.generate(123_456_444, 3, 60, 0.0, 1);
         checkMazeSolution(puzzle.getLeft(), puzzle.getRight());
     }
 
     @Test
     void testGeneratedPerfect005() {
-        Pair<Maze, Position> puzzle = MazeGenerator.generate(123_456_555, 4, 80, 0, 1);
+        Pair<Maze, Position> puzzle = MazeGenerator.generate(123_456_555, 4, 80, 0.0, 1);
         checkMazeSolution(puzzle.getLeft(), puzzle.getRight());
     }
 
@@ -514,61 +514,61 @@ public class SolutionTest {
     
     @Test
     void testGeneratedPorous001() {
-        Pair<Maze, Position> puzzle = MazeGenerator.generate(456_789_111, 1, 20, 0.010, 2);
+        Pair<Maze, Position> puzzle = MazeGenerator.generate(456_789_111, 1, 20, 0.10, 2);
         checkMazeSolution(puzzle.getLeft(), puzzle.getRight());
     }
 
     @Test
     void testGeneratedPorous002() {
-        Pair<Maze, Position> puzzle = MazeGenerator.generate(456_789_222, 2, 30, 0.015, 3);
+        Pair<Maze, Position> puzzle = MazeGenerator.generate(456_789_222, 2, 30, 0.15, 3);
         checkMazeSolution(puzzle.getLeft(), puzzle.getRight());
     }
 
     @Test
     void testGeneratedPorous003() {
-        Pair<Maze, Position> puzzle = MazeGenerator.generate(456_789_333, 3, 45, 0.020, 4);
+        Pair<Maze, Position> puzzle = MazeGenerator.generate(456_789_333, 3, 45, 0.20, 4);
         checkMazeSolution(puzzle.getLeft(), puzzle.getRight());
     }
 
     @Test
     void testGeneratedPorous004() {
-        Pair<Maze, Position> puzzle = MazeGenerator.generate(456_789_444, 3, 60, 0.010, 3);
+        Pair<Maze, Position> puzzle = MazeGenerator.generate(456_789_444, 3, 60, 0.10, 3);
         checkMazeSolution(puzzle.getLeft(), puzzle.getRight());
     }
 
     @Test
     void testGeneratedPorous005() {
-        Pair<Maze, Position> puzzle = MazeGenerator.generate(456_789_555, 4, 80, 0.014, 2);
+        Pair<Maze, Position> puzzle = MazeGenerator.generate(456_789_555, 4, 80, 0.14, 2);
         checkMazeSolution(puzzle.getLeft(), puzzle.getRight());
     }
 
     @Test
     void testGeneratedPorous006() {
-        Pair<Maze, Position> puzzle = MazeGenerator.generate(456_789_666, 3, 100, 0.008, 1);
+        Pair<Maze, Position> puzzle = MazeGenerator.generate(456_789_666, 3, 100, 0.08, 1);
         checkMazeSolution(puzzle.getLeft(), puzzle.getRight());
     }
 
     @Test
     void testGeneratedPorous007() {
-        Pair<Maze, Position> puzzle = MazeGenerator.generate(456_789_777, 4, 120, 0.018, 5);
+        Pair<Maze, Position> puzzle = MazeGenerator.generate(456_789_777, 4, 120, 0.18, 5);
         checkMazeSolution(puzzle.getLeft(), puzzle.getRight());
     }
 
     @Test
     void testGeneratedPorous008() {
-        Pair<Maze, Position> puzzle = MazeGenerator.generate(456_789_888, 5, 140, 0.010, 10);
+        Pair<Maze, Position> puzzle = MazeGenerator.generate(456_789_888, 5, 140, 0.10, 10);
         checkMazeSolution(puzzle.getLeft(), puzzle.getRight());
     }
 
     @Test
     void testGeneratedPorous009() {
-        Pair<Maze, Position> puzzle = MazeGenerator.generate(456_789_999, 6, 160, 0.013, 7);
+        Pair<Maze, Position> puzzle = MazeGenerator.generate(456_789_999, 6, 160, 0.13, 7);
         checkMazeSolution(puzzle.getLeft(), puzzle.getRight());
     }
 
     @Test
     void testGeneratedPorous010() {
-        Pair<Maze, Position> puzzle = MazeGenerator.generate(456_789_000, 7, 200, 0.016, 4);
+        Pair<Maze, Position> puzzle = MazeGenerator.generate(456_789_000, 7, 200, 0.16, 4);
         checkMazeSolution(puzzle.getLeft(), puzzle.getRight());
     }
 
@@ -580,7 +580,7 @@ public class SolutionTest {
             total += checkMazeSolution(puzzle.getLeft(), puzzle.getRight());
         }
         for (int i = 0; i < 100; i++) {
-            Pair<Maze, Position> puzzle = MazeGenerator.generate(135_780_000 + 111 * i, 6, 150, 0.01, 5);
+            Pair<Maze, Position> puzzle = MazeGenerator.generate(135_780_000 + 111 * i, 6, 150, 0.10, 5);
             total += checkMazeSolution(puzzle.getLeft(), puzzle.getRight());
         }
         System.out.println(String.format("took %.3f ms", total));
