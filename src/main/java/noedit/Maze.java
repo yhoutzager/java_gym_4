@@ -109,23 +109,21 @@ public final class Maze {
 		Validate.isTrue(t < duration, "'t' cannot exceed duration");
 
 		StringBuilder text = new StringBuilder("step " + (t + 1) + " of " + duration + ":\n");
-		text.append("+");
-		for (int i = 0; i < width; i++) {
-			text.append("-");
+		for (int i = 0; i < width + 2; i++) {
+			text.append("█");
 		}
-		text.append("+\n");
+		text.append("\n");
 		for (int y = 0; y < height; y++) {
-			text.append("|");
+			text.append("█");
 			for (int x = 0; x < width; x++) {
 				text.append(data[t][x][y].toString());
 			}
-			text.append("|\n");
+			text.append("█\n");
 		}
-		text.append("+");
-		for (int i = 0; i < width; i++) {
-			text.append("-");
+		for (int i = 0; i < width + 2; i++) {
+			text.append("█");
 		}
-		text.append("+\n");
+		text.append("\n");
 		return text.toString();
 	}
 

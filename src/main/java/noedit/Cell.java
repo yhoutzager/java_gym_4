@@ -8,8 +8,10 @@ public enum Cell {
 
 	public static Cell parse(char letter) {
 		switch (letter) {
+			case '█':
 			case '*': return Wall;
 			case ' ': return Open;
+			case 'X':
 			case '#': return Exit;
 		}
 		throw new IllegalArgumentException("Cannot convert character '" + letter + "' to a maze cell");
@@ -18,9 +20,9 @@ public enum Cell {
 	@Override
 	public String toString() {
 		switch (this) {
-			case Wall: return "*";
+			case Wall: return "█";
 			case Open: return " ";
-			case Exit: return "#";
+			case Exit: return "X";
 		}
 		throw new UnsupportedOperationException();
 	}
