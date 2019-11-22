@@ -18,7 +18,7 @@ public enum Cell {
 	@Override
 	public String toString() {
 		switch (this) {
-			case Wall: return "*";
+			case Wall: return "▓";
 			case Open: return " ";
 			case Exit: return "#";
 		}
