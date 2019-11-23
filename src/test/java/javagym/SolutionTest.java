@@ -417,6 +417,54 @@ public class SolutionTest {
     }
 
     @Test
+    void testEarliestExitInaccessible() {
+        // Hint: Not all exits are accessible, sometimes no exits in a layer are accessible.
+        checkMazeSolution(
+                Maze.fromStrings(new String[]{
+                        " ***\n" +
+                        " * *\n" +
+                        " ***\n" +
+                        "    \n",
+                        // next step
+                        " ***\n" +
+                        " *#*\n" +
+                        " ***\n" +
+                        "    \n",
+                        // next step
+                        " ***\n" +
+                        " *#*\n" +
+                        " * *\n" +
+                        "    \n",
+                }),
+                Position.at(0, 0, 0)
+        );
+    }
+
+    @Test
+    void testLastLayerExitInaccessible() {
+        // Hint: Not all exits are accessible, sometimes no exits in a layer are accessible.
+        checkMazeSolution(
+                Maze.fromStrings(new String[]{
+                        " ***\n" +
+                        " * *\n" +
+                        " ***\n" +
+                        "    \n",
+                        // next step
+                        " ***\n" +
+                        " *#*\n" +
+                        " * *\n" +
+                        "    \n",
+                        // next step
+                        " ***\n" +
+                        " *#*\n" +
+                        " ***\n" +
+                        "    \n",
+                }),
+                Position.at(0, 0, 0)
+        );
+    }
+
+    @Test
     void testBigMill() {
         // Hint: you have to run a circle around the center to reach the end.
         checkMazeSolution(
@@ -483,7 +531,8 @@ public class SolutionTest {
 
     @Test
     void testLotsOfExits() {
-        Pair<Maze, Position> puzzle = MazeGenerator.generate(123_456_111, 5, 160, 0.0, 160);
+        // Hint: make sure your algorithm doesn't scale badly in the number of exits.
+        Pair<Maze, Position> puzzle = MazeGenerator.generate(321_654_987, 5, 160, 0.0, 160);
         checkMazeSolution(puzzle.getLeft(), puzzle.getRight());
     }
 
