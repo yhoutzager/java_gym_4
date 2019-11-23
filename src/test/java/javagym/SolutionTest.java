@@ -16,7 +16,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class SolutionTest {
 
-    private static double checkMazeSolution(
+    static double checkMazeSolution(
             @Nonnull Maze maze,
             @Nonnull Position initialPosition
     ) {
