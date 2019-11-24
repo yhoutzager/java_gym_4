@@ -5,33 +5,50 @@ import java.util.List;
 
 import javax.annotation.CheckReturnValue;
 import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
-import org.checkerframework.common.value.qual.MinLen;
+import org.apache.commons.lang3.Validate;
 
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 
 /**
  * Create {@link Path} using {@link #build()}.
  */
-public class PathBuilder {
+public class PathBuilder implements Cloneable {
 
-	@Nonnull
-	@MinLen(1)
-	private final List<Position> steps = new ArrayList<>(256);
+	private static class Node {
+		@Nullable
+		private final Node previous;
+		@Nonnull
+		private final Position position;
+
+		public Node(@Nullable Node previous, @Nonnull Position position) {
+			this.previous = previous;
+			this.position = position;
+		}
+	}
+
+	private int length = 0;
+	private Node latest = null;
 
 	public PathBuilder(@Nonnull Position initialPosition) {
-		steps.add(initialPosition);
+		addChain(initialPosition);
 	}
 
 	public void add(@Nonnull Position position) {
-		steps.add(position);
+		addChain(position);
+	}
+
+	private void addChain(@Nonnull Position position) {
+		length += 1;
+		latest = new Node(latest, position);
 	}
 
 	@Nonnull
 	@CanIgnoreReturnValue
 	public Position left() {
 		Position next = latest().left();
-		steps.add(next);
+		addChain(next);
 		return next;
 	}
 
@@ -39,7 +56,7 @@ public class PathBuilder {
 	@CanIgnoreReturnValue
 	public Position right() {
 		Position next = latest().right();
-		steps.add(next);
+		addChain(next);
 		return next;
 	}
 
@@ -47,7 +64,7 @@ public class PathBuilder {
 	@CanIgnoreReturnValue
 	public Position up() {
 		Position next = latest().up();
-		steps.add(next);
+		addChain(next);
 		return next;
 	}
 
@@ -55,7 +72,7 @@ public class PathBuilder {
 	@CanIgnoreReturnValue
 	public Position down() {
 		Position next = latest().down();
-		steps.add(next);
+		addChain(next);
 		return next;
 	}
 
@@ -63,19 +80,52 @@ public class PathBuilder {
 	@CanIgnoreReturnValue
 	public Position waitStep() {
 		Position next = latest().nextStep();
-		steps.add(next);
+		addChain(next);
 		return next;
 	}
 
 	@Nonnull
 	@CheckReturnValue
 	public Position latest() {
-		return steps.get(steps.size() - 1);
+		return latest.position;
 	}
 
 	@Nonnull
 	@CheckReturnValue
 	public Path build() {
+		List<Position> steps = new ArrayList<>(length);
+		for (int i = 0; i < length; i++) {
+			steps.add(null);
+		}
+		Node current = latest;
+		for (int i = length - 1; i >= 0; i--) {
+			steps.set(i, Validate.notNull(current).position);
+			current = current.previous;
+		}
+		Validate.isTrue(current == null);
 		return new Path(steps);
+	}
+
+	@CheckReturnValue
+	public int size() {
+		return length;
+	}
+
+	/**
+	 * This clone method uses structural sharing and as such is constant time and memory, so very efficient.
+	 */
+	@Nonnull
+	@CheckReturnValue
+	@Override
+	public PathBuilder clone() {
+		PathBuilder doppel;
+		try {
+			doppel = (PathBuilder)super.clone();
+		} catch (CloneNotSupportedException ex) {
+			throw new IllegalStateException(ex);
+		}
+		doppel.length = this.length;
+		doppel.latest = this.latest;
+		return doppel;
 	}
 }
