@@ -22,7 +22,7 @@ public class Solution {
 		Validate.isTrue(Wall != maze.get(initialPosition),
 				"Started inside a wall; this should never happen");
 		PathBuilder path = new PathBuilder(initialPosition);
-		List<Node> exits = new ArrayList<>();
+		List<Node>[] exits = new List[maze.duration];
 		Node[][][] mazeNodes = new Node[maze.duration][maze.width][maze.height];
 
 
@@ -32,44 +32,73 @@ public class Solution {
 		// TODO: 23-11-19 time factor (beginnen bij initial position time.)
 		FOUND:
 		for (int t = initialPosition.t; t < maze.duration; t++) {
-//			openCells.add(new ArrayList<>());
+			exits[t] = new ArrayList<>();
 			for (int x = 0; x < maze.width; x++) {
 				for (int y = 0; y < maze.height; y++) {
 					Cell cell = maze.get(t, x, y);
 					if (Exit.equals(cell)) {
-						exits.add(new Node(x, y, false));
+						exits[t].add(new Node(x, y, false));
 					}
 					mazeNodes[t][x][y] = new Node(x, y, Wall.equals(maze.get(t, x, y)));
 				}
 			}
 		}
-		if (exits.size() < 1) {
-			throw new IllegalStateException("No exits found after the starting position");
-		}
+//		if (exits.size() < 1) {
+//			throw new IllegalStateException("No exits found after the starting position");
+//		}
 		// 2. Is er een exit op deze t? Probeer deze te bereiken.
 		// A* proberen te maken
 		// meerdere exits op zelfde niveau kan misschien in in het algoritme verwerkt worden.
 
-		Stack<Action> actions = new Stack<>();
-		if (maze.duration == 1) {
-			 actions = findPath(mazeNodes[0], new Node(initialPosition.x, initialPosition.y, false), exits);
+		List<Stack<Action>> actions = new ArrayList<>();
+		boolean found = false;
+		for (int t = initialPosition.t; !found && t < maze.duration; t++) {
+			if (exits[t].isEmpty()) {
+				if (t < maze.duration - 1) {// TODO: 24-11-19 lelijk
+					Stack stack = new Stack<Action>();
+					stack.push(WAIT);
+					actions.add(stack);
+				}
+				continue;
+			}
+			Stack<Action> newActions = findPath(mazeNodes[t], new Node(initialPosition.x, initialPosition.y, false), exits[t]);
+			if (newActions != null) {
+				actions.add(newActions);
+				found = true;
+				break;
+				// TODO: 24-11-19 return path.build hier
+			} else if (t < maze.duration - 1) { // TODO: 24-11-19 check ugly if
+				Stack stack = new Stack<Action>();
+				stack.push(WAIT);
+				actions.add(stack);
+			}
 		}
 
+		// 3. Als er bewogen moet worden tussen tijden.
+		// Strategie?
+		// weighted safe cells per tijdstip en daar over loopen?
+
+
 		// TODO: 23-11-19 plan uitvoeren
-		while (!actions.isEmpty()) {
-			switch (actions.pop()) {
-				case UP:
-					path.up();
-					break;
-				case RIGHT:
-					path.right();
-					break;
-				case DOWN:
-					path.down();
-					break;
-				case LEFT:
-					path.left();
-					break;
+		for (Stack<Action> actionStack : actions) {
+			while (!actionStack.isEmpty()) {
+				switch (actionStack.pop()) {
+					case UP:
+						path.up();
+						break;
+					case RIGHT:
+						path.right();
+						break;
+					case DOWN:
+						path.down();
+						break;
+					case LEFT:
+						path.left();
+						break;
+					case WAIT:
+						path.waitStep();
+						break;
+				}
 			}
 		}
 		return path.build();
@@ -245,5 +274,6 @@ enum Action {
 	UP,
 	RIGHT,
 	DOWN,
-	LEFT;
+	LEFT,
+	WAIT
 }
