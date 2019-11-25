@@ -3,8 +3,6 @@ package javagym;
 import javax.annotation.CheckReturnValue;
 import javax.annotation.Nonnull;
 
-import org.apache.commons.lang3.Validate;
-
 import noedit.Cell;
 import noedit.Maze;
 import noedit.Path;
@@ -19,8 +17,8 @@ public class Solution {
     @Nonnull
     @CheckReturnValue
     public Path solve(@Nonnull Maze maze, @Nonnull Position initialPosition) {
-        Validate.isTrue(Wall != maze.get(initialPosition),
-                "Started inside a wall; this should never happen");
+        assert Wall != maze.get(initialPosition):
+                "Started inside a wall; this should never happen";
 
         System.out.println(maze.asStringAll());
         PathBuilder path = new PathBuilder(initialPosition);
